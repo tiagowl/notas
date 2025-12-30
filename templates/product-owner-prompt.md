@@ -45,7 +45,14 @@ Como Product Owner, preciso que você:
 ### Para Análise de Requisitos
 ```
 Analise os seguintes requisitos e crie user stories detalhadas:
-[Inserir requisitos aqui]
+- Sistema de gerenciamento de notas;
+- Ao começar a usar o sistema, o usuário cria um marcador, em seguida um sub marcador que pretence ao marcador criado em seguida notas, que pertence ao sub marcador; 
+- cada nota deve ter um título, conteúdo e data de criação;
+- o conteúdo da nota deve ser criado com rich text;
+- o sistema deve ser feito com o framework next do react
+- Para intergir com banco de dados usar a api routes do next e o sdk do neon para interagir diretamente com o neon;
+- todas as notas podem ser editadas e excluidas;
+- colocar funcionalidade de login;
 
 Foque em:
 - Identificar personas
