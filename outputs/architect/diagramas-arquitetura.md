@@ -585,3 +585,4 @@ Cliente    API Route    AuthService    NoteService    Database
 **Documento gerado por Arquiteto de Software - Diagramas de Arquitetura**
 
 
+

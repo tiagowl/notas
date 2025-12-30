@@ -700,3 +700,4 @@ module.exports = nextConfig
 **Documento gerado por Arquiteto de Software - Documentação Técnica**
 
 
+

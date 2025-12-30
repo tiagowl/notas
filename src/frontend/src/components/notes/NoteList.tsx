@@ -14,9 +14,12 @@ export function NoteList({ notes }: NoteListProps) {
 
   if (notes.length === 0) {
     return (
-      <p className="text-gray-500 text-sm text-center py-8">
-        Nenhuma nota criada ainda
-      </p>
+      <div className="text-center py-12">
+        <div className="p-3 bg-emerald-100 rounded-full w-fit mx-auto mb-3">
+          <FileText className="w-6 h-6 text-emerald-400" />
+        </div>
+        <p className="text-gray-500 text-sm">Nenhuma nota criada ainda</p>
+      </div>
     );
   }
 
@@ -30,18 +33,19 @@ export function NoteList({ notes }: NoteListProps) {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {notes.map((note) => (
-        <Card
+        <button
           key={note.id}
-          interactive
           onClick={() => router.push(`/dashboard/notes/${note.id}`)}
-          className="p-4 hover:shadow-md transition-shadow"
+          className="w-full text-left p-4 rounded-lg border-2 border-gray-200 bg-white hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-md transition-all duration-200 group"
         >
           <div className="flex items-start gap-3">
-            <FileText className="w-5 h-5 text-primary-500 mt-0.5 flex-shrink-0" />
+            <div className="p-2 bg-emerald-100 group-hover:bg-emerald-200 rounded-lg flex-shrink-0 transition-colors">
+              <FileText className="w-5 h-5 text-emerald-600" />
+            </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 truncate mb-1">
+              <h3 className="font-semibold text-gray-900 truncate mb-2 group-hover:text-emerald-700 transition-colors">
                 {note.title}
               </h3>
               <div className="flex items-center gap-2 text-xs text-gray-500">
@@ -49,8 +53,15 @@ export function NoteList({ notes }: NoteListProps) {
                 <span>{formatDate(note.created_at)}</span>
               </div>
             </div>
+            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="p-1 bg-emerald-100 rounded-full">
+                <svg className="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
           </div>
-        </Card>
+        </button>
       ))}
     </div>
   );

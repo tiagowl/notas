@@ -693,3 +693,4 @@ static async create(input: CreateNoteInput): Promise<Note> {
 **Documento gerado por Arquiteto de Software - Guias de Desenvolvimento**
 
 
+

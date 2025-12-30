@@ -529,3 +529,4 @@ Começar com **Context API + useState** e **React Hooks customizados**:
 **Documento gerado por Arquiteto de Software - Decisões Arquiteturais (ADRs)**
 
 
+

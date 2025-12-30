@@ -190,3 +190,4 @@ Utilizamos uma matriz de priorização considerando:
 - **Sprint 4**: 100% das operações de exclusão funcionam corretamente
 
 
+

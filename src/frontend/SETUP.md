@@ -80,3 +80,4 @@ O sistema usa uma hierarquia:
 - A hierarquia deve ser: Marcador → Sub-marcador → Nota
 
 
+
