@@ -44,9 +44,10 @@ npm run dev
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── (auth)/            # Rotas de autenticação
 │   ├── (dashboard)/       # Rotas autenticadas
-│   └── api/               # API Routes
+│   ├── dashboard/         # Dashboard principal
+│   ├── api/               # API Routes
+│   └── ...
 ├── components/            # Componentes React
 │   ├── ui/               # Componentes base
 │   ├── layout/           # Layout components
@@ -64,51 +65,69 @@ src/
 └── types/               # TypeScript types
 ```
 
-## 🛠️ Tecnologias
+## 🛠️ Scripts Disponíveis
 
-- **Next.js 14+** (App Router)
-- **React 18+**
-- **TypeScript**
-- **Tailwind CSS**
-- **TipTap** (Editor Rich Text)
-- **Zod** (Validação)
-- **Neon PostgreSQL** (Banco de dados)
-- **JWT** (Autenticação)
-
-## 📝 Funcionalidades
-
-- ✅ Autenticação (Login/Registro)
-- ✅ Gerenciamento de Marcadores
-- ✅ Gerenciamento de Sub-marcadores
-- ✅ Gerenciamento de Notas
-- ✅ Editor Rich Text
-- ✅ Interface Responsiva
-- ✅ Validação de dados
-- ✅ Sanitização de HTML (XSS prevention)
-
-## 🔒 Segurança
-
-- Autenticação JWT
-- Senhas hasheadas com bcrypt
-- Sanitização de conteúdo HTML
-- Validação de inputs
-- Proteção contra SQL Injection (parameterized queries)
-
-## 📦 Scripts Disponíveis
-
-- `npm run dev` - Inicia servidor de desenvolvimento
+- `npm run dev` - Inicia o servidor de desenvolvimento
 - `npm run build` - Cria build de produção
-- `npm run start` - Inicia servidor de produção
-- `npm run lint` - Executa linter
+- `npm run start` - Inicia o servidor de produção
+- `npm run lint` - Executa o linter
 - `npm run type-check` - Verifica tipos TypeScript
 
-## 🗄️ Banco de Dados
+## 🚀 Deploy
 
-Execute o script `database/schema.sql` no seu banco Neon PostgreSQL para criar as tabelas necessárias.
+Para fazer deploy na Vercel, consulte o arquivo [DEPLOY.md](./DEPLOY.md) para instruções detalhadas.
+
+### Deploy Rápido
+
+1. Conecte seu repositório à Vercel
+2. Configure as variáveis de ambiente:
+   - `DATABASE_URL`
+   - `JWT_SECRET`
+   - `JWT_EXPIRES_IN` (opcional)
+3. Execute o deploy
+
+## 🔧 Tecnologias
+
+- **Next.js 14** - Framework React
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização
+- **Neon PostgreSQL** - Banco de dados
+- **TipTap** - Editor rich text
+- **Zod** - Validação de schemas
+- **React Hook Form** - Gerenciamento de formulários
+- **JWT** - Autenticação
+
+## 📝 Variáveis de Ambiente
+
+| Variável | Obrigatória | Descrição |
+|----------|-------------|-----------|
+| `DATABASE_URL` | Sim | URL de conexão do PostgreSQL |
+| `JWT_SECRET` | Sim | Chave secreta para JWT |
+| `JWT_EXPIRES_IN` | Não | Tempo de expiração do token (padrão: 7d) |
+| `NEXT_PUBLIC_APP_URL` | Não | URL da aplicação |
+| `NODE_ENV` | Não | Ambiente (development/production) |
+
+## 🐛 Troubleshooting
+
+### Erro: "DATABASE_URL is not set"
+- Verifique se a variável está definida no `.env.local`
+- Certifique-se de que o formato está correto
+
+### Erro de Build
+- Execute `npm run type-check` para verificar erros de TypeScript
+- Verifique se todas as dependências estão instaladas
+
+### Erro de Conexão com Banco
+- Verifique se a URL do banco está correta
+- Certifique-se de que o banco permite conexões externas
+- Verifique se o SSL está habilitado
+
+## 📚 Documentação Adicional
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Neon Documentation](https://neon.tech/docs)
+- [TipTap Documentation](https://tiptap.dev)
 
 ## 📄 Licença
 
 Este projeto é privado.
-
-
-
