@@ -178,3 +178,4 @@
 - **US-007** é pré-requisito para **US-008, US-009, US-010, US-011**
 - **US-012** está integrado em **US-007** e **US-010**
 
+

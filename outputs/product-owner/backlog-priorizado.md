@@ -189,3 +189,4 @@ Utilizamos uma matriz de priorização considerando:
 - **Sprint 3**: 90% dos usuários conseguem editar notas sem problemas
 - **Sprint 4**: 100% das operações de exclusão funcionam corretamente
 
+

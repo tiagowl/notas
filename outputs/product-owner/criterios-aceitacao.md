@@ -474,3 +474,4 @@
 - [ ] Textos alternativos em imagens (se houver)
 - [ ] Estrutura semântica HTML correta
 
+
