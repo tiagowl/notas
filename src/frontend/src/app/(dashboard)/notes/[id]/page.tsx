@@ -173,7 +173,7 @@ export default function NoteDetailPage() {
           <p className="text-gray-700">
             Tem certeza que deseja excluir esta nota?
           </p>
-          <p className="font-semibold text-gray-900">"{note.title}"</p>
+          <p className="font-semibold text-gray-900">&quot;{note.title}&quot;</p>
           <p className="text-sm text-gray-500">
             Esta ação não pode ser desfeita.
           </p>
