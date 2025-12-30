@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createMarkerSchema } from '@/lib/validators/marker.validator';
+import { createMarkerSchema, CreateMarkerInput } from '@/lib/validators/marker.validator';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -38,11 +38,11 @@ export function CreateMarkerModal({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<CreateMarkerInput>({
     resolver: zodResolver(createMarkerSchema),
   });
 
-  const onSubmit = async (data: { name: string }) => {
+  const onSubmit = async (data: CreateMarkerInput) => {
     setIsLoading(true);
     try {
       await createMarker(data);

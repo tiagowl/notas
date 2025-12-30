@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createSubMarkerSchema } from '@/lib/validators/sub-marker.validator';
+import { createSubMarkerSchema, CreateSubMarkerInput } from '@/lib/validators/sub-marker.validator';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -41,7 +41,7 @@ export function CreateSubMarkerModal({
     formState: { errors },
     reset,
     setValue,
-  } = useForm({
+  } = useForm<CreateSubMarkerInput>({
     resolver: zodResolver(createSubMarkerSchema),
     defaultValues: {
       marker_id: markerId,
@@ -59,7 +59,7 @@ export function CreateSubMarkerModal({
     }
   }, [isOpen, markerId, setValue, reset]);
 
-  const onSubmit = async (data: { name: string; marker_id: string }) => {
+  const onSubmit = async (data: CreateSubMarkerInput) => {
     setIsLoading(true);
     try {
       await createSubMarker(data);

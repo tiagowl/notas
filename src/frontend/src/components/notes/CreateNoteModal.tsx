@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createNoteSchema } from '@/lib/validators/note.validator';
+import { createNoteSchema, CreateNoteInput } from '@/lib/validators/note.validator';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -44,7 +44,7 @@ export function CreateNoteModal({
     reset,
     setValue,
     watch,
-  } = useForm({
+  } = useForm<CreateNoteInput>({
     resolver: zodResolver(createNoteSchema),
     defaultValues: {
       title: '',
@@ -73,7 +73,7 @@ export function CreateNoteModal({
     }
   }, [content, setValue]);
 
-  const onSubmit = async (data: { title: string; content: string; sub_marker_id: string }) => {
+  const onSubmit = async (data: CreateNoteInput) => {
     setIsLoading(true);
     try {
       console.log('Creating note with data:', { title: data.title, content: data.content, sub_marker_id: data.sub_marker_id });
