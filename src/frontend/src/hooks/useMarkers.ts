@@ -18,6 +18,9 @@ export function useMarkers(): UseMarkersReturn {
   const [error, setError] = useState<string | null>(null);
 
   const getAuthHeaders = () => {
+    if (typeof window === 'undefined') {
+      return { 'Content-Type': 'application/json' };
+    }
     const token = localStorage.getItem('token');
     return {
       'Content-Type': 'application/json',
@@ -47,6 +50,10 @@ export function useMarkers(): UseMarkersReturn {
   }, []);
 
   const createMarker = useCallback(async (input: CreateMarkerInput) => {
+    if (typeof window === 'undefined') {
+      throw new Error('Criação de marcador só pode ser executada no cliente');
+    }
+
     const headers = getAuthHeaders();
     const token = localStorage.getItem('token');
     
@@ -109,7 +116,11 @@ export function useMarkers(): UseMarkersReturn {
   }, []);
 
   useEffect(() => {
-    fetchMarkers();
+    if (typeof window !== 'undefined') {
+      fetchMarkers();
+    } else {
+      setLoading(false);
+    }
   }, [fetchMarkers]);
 
   return {

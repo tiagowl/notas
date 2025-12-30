@@ -19,6 +19,9 @@ export function useNotes(): UseNotesReturn {
   const [error, setError] = useState<string | null>(null);
 
   const getAuthHeaders = () => {
+    if (typeof window === 'undefined') {
+      return { 'Content-Type': 'application/json' };
+    }
     const token = localStorage.getItem('token');
     return {
       'Content-Type': 'application/json',
@@ -56,6 +59,10 @@ export function useNotes(): UseNotesReturn {
   }, []);
 
   const createNote = useCallback(async (input: CreateNoteInput) => {
+    if (typeof window === 'undefined') {
+      throw new Error('Criação de nota só pode ser executada no cliente');
+    }
+
     const headers = getAuthHeaders();
     const token = localStorage.getItem('token');
     

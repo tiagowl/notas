@@ -24,6 +24,9 @@ export function useSubMarkers(): UseSubMarkersReturn {
   const [error, setError] = useState<string | null>(null);
 
   const getAuthHeaders = () => {
+    if (typeof window === 'undefined') {
+      return { 'Content-Type': 'application/json' };
+    }
     const token = localStorage.getItem('token');
     return {
       'Content-Type': 'application/json',

@@ -18,6 +18,11 @@ export function useAuth(): UseAuthReturn {
 
   // Verificar autenticação ao carregar
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      setLoading(false);
+      return;
+    }
+
     const checkAuth = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -50,6 +55,10 @@ export function useAuth(): UseAuthReturn {
   }, []);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
+    if (typeof window === 'undefined') {
+      throw new Error('Login só pode ser executado no cliente');
+    }
+
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: {
@@ -70,6 +79,10 @@ export function useAuth(): UseAuthReturn {
   }, [router]);
 
   const register = useCallback(async (data: RegisterData) => {
+    if (typeof window === 'undefined') {
+      throw new Error('Registro só pode ser executado no cliente');
+    }
+
     const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
@@ -90,7 +103,9 @@ export function useAuth(): UseAuthReturn {
   }, [router]);
 
   const logout = useCallback(() => {
-    localStorage.removeItem('token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+    }
     setUser(null);
     router.push('/login');
   }, [router]);
