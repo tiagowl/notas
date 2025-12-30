@@ -21,6 +21,8 @@ import {
   Layers
 } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default function DashboardPage() {
   const [selectedMarkerId, setSelectedMarkerId] = useState<string | null>(
     null

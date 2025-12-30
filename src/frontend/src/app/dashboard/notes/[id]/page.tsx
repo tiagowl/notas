@@ -11,6 +11,8 @@ import { Modal } from '@/components/ui/Modal';
 import { Toast } from '@/components/ui/Toast';
 import DOMPurify from 'isomorphic-dompurify';
 
+export const dynamic = 'force-dynamic';
+
 export default function NoteDetailPage() {
   const params = useParams();
   const router = useRouter();
