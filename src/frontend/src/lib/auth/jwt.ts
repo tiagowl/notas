@@ -1,4 +1,4 @@
-import jwt, { SignOptions } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const JWT_SECRET: string = process.env.JWT_SECRET || 'default-secret-change-in-production';
 const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || '7d';
@@ -13,11 +13,10 @@ export function generateToken(payload: JWTPayload): string {
     throw new Error('JWT_SECRET is not defined');
   }
   
-  const options: SignOptions = {
+  // @ts-expect-error - expiresIn accepts string values like "7d", "1h" etc.
+  return jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
-  };
-  
-  return jwt.sign(payload, JWT_SECRET, options);
+  });
 }
 
 export function verifyToken(token: string): JWTPayload {
