@@ -41,26 +41,51 @@ export function useNotes(): UseNotesReturn {
 
     try {
       setLoading(true);
-      const response = await fetch(
-        `/api/notes?sub_marker_id=${subMarkerId}`,
-        {
-          headers: getAuthHeaders(),
-        }
-      );
+      const headers = getAuthHeaders();
+      const url = `/api/notes?sub_marker_id=${encodeURIComponent(subMarkerId)}`;
+      
+      console.log('useNotes.fetchNotes - URL:', url);
+      console.log('useNotes.fetchNotes - Headers:', headers);
+      console.log('useNotes.fetchNotes - subMarkerId:', subMarkerId);
+
+      const response = await fetch(url, {
+        headers,
+        method: 'GET',
+      });
+
+      console.log('useNotes.fetchNotes - Response status:', response.status);
+      console.log('useNotes.fetchNotes - Response ok:', response.ok);
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ 
-          error: 'Erro ao buscar notas' 
-        }));
-        throw new Error(errorData.error || 'Erro ao buscar notas');
+        let errorMessage = `Erro ao buscar notas (${response.status})`;
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.error || errorData.message || errorMessage;
+          console.error('useNotes.fetchNotes - Error data:', errorData);
+        } catch (parseError) {
+          const text = await response.text().catch(() => 'Erro desconhecido');
+          console.error('useNotes.fetchNotes - Error text:', text);
+          errorMessage = text || errorMessage;
+        }
+        
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
+      console.log('useNotes.fetchNotes - Data received:', data);
+      console.log('useNotes.fetchNotes - Data is array:', Array.isArray(data));
+      console.log('useNotes.fetchNotes - Data length:', Array.isArray(data) ? data.length : 'N/A');
+      
       // Verificar se ainda é o mesmo subMarkerId antes de atualizar
-      setNotes(Array.isArray(data) ? data : []);
+      const notesArray = Array.isArray(data) ? data : [];
+      setNotes(notesArray);
+      setError(null);
     } catch (err) {
-      console.error('Erro ao buscar notas:', err);
-      setError(err instanceof Error ? err.message : 'Erro desconhecido');
+      const errorMessage = err instanceof Error ? err.message : 'Erro desconhecido ao buscar notas';
+      console.error('useNotes.fetchNotes - Error:', err);
+      console.error('useNotes.fetchNotes - Error message:', errorMessage);
+      setError(errorMessage);
       setNotes([]);
     } finally {
       setLoading(false);

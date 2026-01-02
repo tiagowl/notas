@@ -10,22 +10,42 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const subMarkerId = searchParams.get('sub_marker_id');
 
+    console.log('GET /api/notes - Request URL:', request.url);
     console.log('GET /api/notes - sub_marker_id:', subMarkerId);
     console.log('GET /api/notes - user_id:', user.id);
 
-    if (!subMarkerId) {
+    if (!subMarkerId || subMarkerId.trim() === '') {
+      console.error('GET /api/notes - sub_marker_id is missing or empty');
       return NextResponse.json(
         { error: 'sub_marker_id é obrigatório' },
         { status: 400 }
       );
     }
 
+    // Validar formato do UUID
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(subMarkerId)) {
+      console.error('GET /api/notes - Invalid sub_marker_id format:', subMarkerId);
+      return NextResponse.json(
+        { error: 'sub_marker_id inválido' },
+        { status: 400 }
+      );
+    }
+
+    console.log('GET /api/notes - Calling NoteService.getBySubMarker');
     const notes = await NoteService.getBySubMarker(subMarkerId, user.id);
     console.log('GET /api/notes - Found notes:', notes.length);
+    console.log('GET /api/notes - Notes:', JSON.stringify(notes, null, 2));
     
-    return NextResponse.json(notes, { status: 200 });
+    return NextResponse.json(notes, { 
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    });
   } catch (error) {
     console.error('GET /api/notes - Error:', error);
+    console.error('GET /api/notes - Error stack:', error instanceof Error ? error.stack : 'No stack');
     return handleApiError(error);
   }
 }
