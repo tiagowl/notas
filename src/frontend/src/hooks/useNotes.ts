@@ -30,14 +30,17 @@ export function useNotes(): UseNotesReturn {
   };
 
   const fetchNotes = useCallback(async (subMarkerId: string | null) => {
+    // Limpar notas imediatamente quando subMarkerId muda
+    setNotes([]);
+    setError(null);
+    
     if (!subMarkerId) {
-      setNotes([]);
+      setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
-      setError(null);
       const response = await fetch(
         `/api/notes?sub_marker_id=${subMarkerId}`,
         {
@@ -46,13 +49,19 @@ export function useNotes(): UseNotesReturn {
       );
 
       if (!response.ok) {
-        throw new Error('Erro ao buscar notas');
+        const errorData = await response.json().catch(() => ({ 
+          error: 'Erro ao buscar notas' 
+        }));
+        throw new Error(errorData.error || 'Erro ao buscar notas');
       }
 
       const data = await response.json();
-      setNotes(data);
+      // Verificar se ainda é o mesmo subMarkerId antes de atualizar
+      setNotes(Array.isArray(data) ? data : []);
     } catch (err) {
+      console.error('Erro ao buscar notas:', err);
       setError(err instanceof Error ? err.message : 'Erro desconhecido');
+      setNotes([]);
     } finally {
       setLoading(false);
     }

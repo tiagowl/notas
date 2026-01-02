@@ -12,6 +12,11 @@ interface NoteListProps {
 export function NoteList({ notes }: NoteListProps) {
   const router = useRouter();
 
+  // Log para debug em produção
+  if (typeof window !== 'undefined') {
+    console.log('NoteList - Received notes:', notes.length, notes);
+  }
+
   if (notes.length === 0) {
     return (
       <div className="text-center py-12">

@@ -11,13 +11,22 @@ export class NoteService {
     subMarkerId: string,
     userId: string
   ): Promise<Note[]> {
-    const result = await sql`
-      SELECT * FROM notes
-      WHERE sub_marker_id = ${subMarkerId} AND user_id = ${userId}
-      ORDER BY created_at DESC
-    `;
+    try {
+      const result = await sql`
+        SELECT * FROM notes
+        WHERE sub_marker_id = ${subMarkerId} AND user_id = ${userId}
+        ORDER BY created_at DESC
+      `;
 
-    return result as Note[];
+      // Garantir que sempre retornamos um array
+      const notes = Array.isArray(result) ? result : [];
+      console.log(`NoteService.getBySubMarker - Found ${notes.length} notes for sub_marker_id: ${subMarkerId}, user_id: ${userId}`);
+      
+      return notes as Note[];
+    } catch (error) {
+      console.error('NoteService.getBySubMarker - Error:', error);
+      throw error;
+    }
   }
 
   /**

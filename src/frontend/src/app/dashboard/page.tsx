@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMarkers } from '@/hooks/useMarkers';
 import { useSubMarkers } from '@/hooks/useSubMarkers';
 import { useNotes } from '@/hooks/useNotes';
@@ -39,7 +39,7 @@ export default function DashboardPage() {
     fetchSubMarkers,
     deleteSubMarker,
   } = useSubMarkers();
-  const { notes, loading: notesLoading, fetchNotes } = useNotes();
+  const { notes, loading: notesLoading, error: notesError, fetchNotes } = useNotes();
 
   // Buscar sub-marcadores quando marcador é selecionado
   const handleMarkerSelect = (markerId: string | null) => {
@@ -55,8 +55,18 @@ export default function DashboardPage() {
     setSelectedSubMarkerId(subMarkerId);
     if (subMarkerId) {
       fetchNotes(subMarkerId);
+    } else {
+      // Limpar notas quando nenhum sub-marcador está selecionado
+      fetchNotes(null);
     }
   };
+
+  // Garantir que as notas sejam buscadas quando o sub-marcador mudar
+  useEffect(() => {
+    if (selectedSubMarkerId) {
+      fetchNotes(selectedSubMarkerId);
+    }
+  }, [selectedSubMarkerId, fetchNotes]);
 
   // Verificar se é primeiro acesso
   const isFirstAccess = markers.length === 0;
@@ -327,6 +337,19 @@ export default function DashboardPage() {
                       className="h-20 bg-gradient-to-r from-gray-100 to-gray-50 rounded-lg animate-pulse"
                     ></div>
                   ))}
+                </div>
+              ) : notesError ? (
+                <div className="text-center py-12">
+                  <p className="text-red-500 text-sm mb-2">Erro ao carregar notas</p>
+                  <p className="text-gray-500 text-xs">{notesError}</p>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => selectedSubMarkerId && fetchNotes(selectedSubMarkerId)}
+                    className="mt-4"
+                  >
+                    Tentar novamente
+                  </Button>
                 </div>
               ) : (
                 <NoteList notes={notes} />

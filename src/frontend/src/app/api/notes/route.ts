@@ -10,6 +10,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const subMarkerId = searchParams.get('sub_marker_id');
 
+    console.log('GET /api/notes - sub_marker_id:', subMarkerId);
+    console.log('GET /api/notes - user_id:', user.id);
+
     if (!subMarkerId) {
       return NextResponse.json(
         { error: 'sub_marker_id é obrigatório' },
@@ -18,8 +21,11 @@ export async function GET(request: NextRequest) {
     }
 
     const notes = await NoteService.getBySubMarker(subMarkerId, user.id);
+    console.log('GET /api/notes - Found notes:', notes.length);
+    
     return NextResponse.json(notes, { status: 200 });
   } catch (error) {
+    console.error('GET /api/notes - Error:', error);
     return handleApiError(error);
   }
 }
