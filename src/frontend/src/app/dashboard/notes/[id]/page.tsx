@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/Card';
 import { ArrowLeft, Edit, Trash2, Calendar } from 'lucide-react';
 import { Modal } from '@/components/ui/Modal';
 import { Toast } from '@/components/ui/Toast';
-import DOMPurify from 'isomorphic-dompurify';
+import { sanitizeHtml } from '@/lib/utils/sanitize';
 
 export default function NoteDetailPage() {
   const params = useParams();
@@ -17,6 +17,7 @@ export default function NoteDetailPage() {
   const { getNoteById, deleteNote } = useNotes();
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
+  const [sanitizedContent, setSanitizedContent] = useState<string>('');
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [toast, setToast] = useState<{
@@ -34,6 +35,9 @@ export default function NoteDetailPage() {
       try {
         const noteData = await getNoteById(params.id as string);
         setNote(noteData);
+        // Sanitizar conteúdo HTML
+        const sanitized = await sanitizeHtml(noteData.content);
+        setSanitizedContent(sanitized);
       } catch (error) {
         setToast({
           message:
@@ -110,9 +114,6 @@ export default function NoteDetailPage() {
       </div>
     );
   }
-
-  // Sanitizar conteúdo HTML
-  const sanitizedContent = DOMPurify.sanitize(note.content);
 
   return (
     <>

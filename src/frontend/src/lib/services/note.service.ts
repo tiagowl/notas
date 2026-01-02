@@ -70,7 +70,7 @@ export class NoteService {
     }
 
     // Sanitizar conteúdo HTML
-    const sanitizedContent = sanitizeHtml(input.content);
+    const sanitizedContent = await sanitizeHtml(input.content);
 
     const result = await sql`
       INSERT INTO notes (sub_marker_id, user_id, title, content)
@@ -98,7 +98,7 @@ export class NoteService {
 
     if (input.content !== undefined) {
       // Sanitizar conteúdo HTML
-      content = sanitizeHtml(input.content);
+      content = await sanitizeHtml(input.content);
     }
 
     const result = await sql`
