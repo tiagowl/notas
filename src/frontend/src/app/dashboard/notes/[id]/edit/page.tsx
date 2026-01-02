@@ -84,10 +84,18 @@ export default function EditNotePage() {
 
     setIsSaving(true);
     try {
-      await updateNote(note.id, {
-        title: data.title,
-        content: data.content.trim(),
-      });
+      // Preparar dados para atualização (apenas campos que foram fornecidos)
+      const updateData: UpdateNoteInput = {};
+      
+      if (data.title !== undefined) {
+        updateData.title = data.title;
+      }
+      
+      if (data.content !== undefined) {
+        updateData.content = data.content.trim();
+      }
+      
+      await updateNote(note.id, updateData);
       setToast({
         message: 'Nota atualizada com sucesso!',
         type: 'success',
