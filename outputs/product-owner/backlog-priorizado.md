@@ -191,3 +191,5 @@ Utilizamos uma matriz de priorização considerando:
 
 
 
+
+

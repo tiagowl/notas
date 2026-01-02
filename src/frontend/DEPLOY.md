@@ -42,11 +42,19 @@ git push -u origin main
 
 ### 3. Configurar o Projeto na Vercel
 
+**IMPORTANTE**: Se o projeto estiver em `src/frontend`, configure:
+
 1. **Framework Preset**: Next.js (detectado automaticamente)
-2. **Root Directory**: `src/frontend` (se o projeto estiver em subpasta)
-3. **Build Command**: `npm run build` (padrão)
-4. **Output Directory**: `.next` (padrão)
+2. **Root Directory**: `src/frontend` ⚠️ **OBRIGATÓRIO se o código estiver em subpasta**
+3. **Build Command**: `npm run build` (padrão, não altere)
+4. **Output Directory**: ⚠️ **DEIXE VAZIO ou remova** - Next.js não precisa de output directory
 5. **Install Command**: `npm install` (padrão)
+
+**⚠️ ATENÇÃO**: Se você ver o erro "No Output Directory named 'public' found":
+- Vá em **Settings** > **General** no seu projeto na Vercel
+- Procure por **"Output Directory"**
+- **REMOVA ou DEIXE VAZIO** esse campo
+- Next.js não precisa de Output Directory - a Vercel gerencia isso automaticamente
 
 ### 4. Executar o Script SQL
 
@@ -123,4 +131,6 @@ Após o deploy, verifique:
 - [Documentação da Vercel](https://vercel.com/docs)
 - [Documentação do Next.js](https://nextjs.org/docs)
 - [Documentação do Neon](https://neon.tech/docs)
+
+
 
