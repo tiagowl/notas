@@ -5,6 +5,13 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
+  // Garantir que o build funcione corretamente na Vercel
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
 }
 
 module.exports = nextConfig
