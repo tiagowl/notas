@@ -105,3 +105,5 @@ git push
 3. Verifique os logs de build na Vercel para erros específicos
 4. Certifique-se de que todas as variáveis de ambiente estão configuradas
 
+
+

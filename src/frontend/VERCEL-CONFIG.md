@@ -131,3 +131,5 @@ Antes de fazer o deploy, verifique:
   - [ ] `JWT_SECRET`
 - [ ] O script SQL foi executado no banco de dados
 
+
+

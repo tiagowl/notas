@@ -42,8 +42,35 @@ export const updateNoteSchema = z.object({
     .optional(),
   content: z
     .string()
-    .min(1, 'Conteúdo é obrigatório')
-    .optional(),
+    .optional()
+    .refine(
+      (val) => {
+        // Se content não foi fornecido, é válido (opcional)
+        if (val === undefined) {
+          return true;
+        }
+        
+        // Se foi fornecido, deve ter conteúdo válido
+        if (!val || typeof val !== 'string') {
+          return false;
+        }
+        
+        const trimmed = val.trim();
+        if (trimmed === '' || trimmed === '<p></p>' || trimmed === '<p><br></p>') {
+          return false;
+        }
+        
+        // Verificar se não é apenas HTML vazio (tags sem conteúdo)
+        const textOnly = trimmed
+          .replace(/<[^>]*>/g, '') // Remove tags HTML
+          .replace(/&nbsp;/g, ' ') // Converte &nbsp; em espaço
+          .replace(/&[a-z]+;/gi, '') // Remove outras entidades HTML
+          .trim();
+        
+        return textOnly.length > 0;
+      },
+      { message: 'O conteúdo da nota deve ter texto' }
+    ),
 }).refine(
   (data) => data.title !== undefined || data.content !== undefined,
   {

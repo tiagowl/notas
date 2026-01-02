@@ -87,3 +87,5 @@ Se o erro persistir após seguir estes passos:
 3. Verifique os logs de build na Vercel para mais detalhes
 4. Certifique-se de que todas as variáveis de ambiente estão configuradas
 
+
+
